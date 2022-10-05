@@ -1,0 +1,7 @@
+<p>User works!</p>
+<p>Selected user: {{user.id}}</p>
+
+<a [routerLink]="['/users', randomNumber]">Link {{randomNumber}}</a>
+<br>
+<a [routerLink]="['/users', randomNumber]"
+    [queryParams]="{edit: true}">Query Param Link {{randomNumber}}</a>

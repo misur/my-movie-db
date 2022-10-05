@@ -1,0 +1,24 @@
+<h3>Add new movie</h3>
+
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label> Movie name</mat-label>
+  <input matInput placeholder="name" [(ngModel)]="movie.name">
+</mat-form-field>
+<br>
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label> Movie description</mat-label>
+  <textarea rows="3" matInput placeholder="description" [(ngModel)]="movie.description"></textarea>
+</mat-form-field>
+<br>
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label> Movie author</mat-label>
+  <input matInput placeholder="author" [(ngModel)]="movie.author">
+</mat-form-field>
+<br>
+
+<button
+  mat-raised-button
+  color="primary"
+  (click)="addNewMovie()">
+  Add new movie
+</button>

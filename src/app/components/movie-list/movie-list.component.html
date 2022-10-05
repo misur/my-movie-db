@@ -1,0 +1,21 @@
+<h1 appHighLight [textDecoration]="'underline'">Movie List</h1>
+
+
+<app-movie-item-details
+  *ngFor="let movie of findMovies()"
+  [movieItem]="movie">
+</app-movie-item-details>
+
+
+<p *ngIf="movieList.length > 0; else noMovies">Number of Movies: {{findMovies().length}}</p>
+<ng-template #noMovies>
+  <p [ngStyle]="{'background-color': getWarningColor(), 'padding': '5px'}">No Movies in DB</p>
+</ng-template>
+
+
+
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label>Search Movie</mat-label>
+  <input matInput placeholder="Search Movie" [(ngModel)]="searchMovie">
+</mat-form-field>
+
