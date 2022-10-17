@@ -4,28 +4,18 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class DatabaseService {
-  private movieList: { name: string, description: string, author: string }[] = [{
-    name: 'Matrix',
-    description: 'SC-FI',
-    author: 'NO'
-  },
-    {
-      name: 'Godfather',
-      description: 'Drama',
-      author: 'NO'
-    }];
+
+  private menuList = [
+    {id: 1, url: 'movies', title: 'Movies', description: 'All movies'},
+    {id: 2, url: 'tv-shows', title: 'TV Shows', description: 'All tv shows'}
+  ];
+
 
   constructor() {
   }
 
-  getMovies() {
-    return this.movieList;
-  }
-
-  addMovie(movie) {
-    if (movie != null) {
-      this.movieList.push(movie);
-    }
+  getMenuList() {
+    return this.menuList;
   }
 
 }

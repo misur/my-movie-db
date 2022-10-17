@@ -4,14 +4,34 @@
   </button>
   <span routerLink="/" class="head-title">My Movie DB</span>
   <span class="example-spacer"></span>
-  <span>{{loggedUser.username}}</span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="onLogin()">
-    <fa-icon [icon]="login"></fa-icon>
+  <span *ngIf="loggedUser">{{loggedUser.username}}</span>
+  <button *ngIf="!loggedUser"
+          mat-icon-button
+          class="example-icon favorite-icon"
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with heart icon" >
+    <fa-icon [icon]="faUser"></fa-icon>
   </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" routerLinkActive="active-page" routerLink="users" [routerLinkActiveOptions]="{exact: true}">
-    <fa-icon [icon]="faUser" ></fa-icon>
+  <mat-menu #menu>
+    <div class="">
+      <a mat-flat-button target="_blank" (click)="onLogin()">Login</a>
+    </div>
+    <div class="">
+      <a mat-flat-button href="https://www.google.com/" target="_blank">Logout</a>
+    </div>
+
+  </mat-menu>
+<!--  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" routerLinkActive="active-page" routerLink="users" [routerLinkActiveOptions]="{exact: true}">-->
+<!--    <fa-icon [icon]="faUser" ></fa-icon>-->
+<!--  </button>-->
+  <button *ngIf="loggedUser" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onLogout()">
+    <fa-icon [icon]="login" ></fa-icon>
   </button>
 </mat-toolbar>
+<app-menu></app-menu>
+
+<mat-card style="height: 100%;">
+  <router-outlet></router-outlet>
+</mat-card>
 
 
-<router-outlet></router-outlet>

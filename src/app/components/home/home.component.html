@@ -1,34 +1,41 @@
-<mat-grid-list cols="2" rowHeight="2:2" style="width: 100%">
-  <mat-grid-tile >
-    <app-movie-list [movieListService]="movieList"></app-movie-list>
+<mat-grid-list cols="4" rowHeight="1:2" style="width: 100%">
+
+
+  <mat-grid-tile [rowspan]="1">
+    <div style="width: 100%; height: 100%;">
+      <app-add-new-user></app-add-new-user>
+    </div>
+
+  </mat-grid-tile>
+
+
+  <mat-grid-tile [rowspan]="1" [colspan]="3">
+    <app-movie-list [movieListService]="movieList" style="width: 100%; height: 100%;"></app-movie-list>
   </mat-grid-tile>
 
 
-  <mat-grid-tile >
-    <button mat-raised-button color="primary" (click)="goToUsersPage()">Show Users</button>
-    <br>
-    <button mat-raised-button color="primary" (click)="goToUsersPageParam()">Show Users Param</button>
-    <br>
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="showFormForAdding = !showFormForAdding">
-      Show Form for Movie
-    </button>
+  <!--    <button mat-raised-button color="primary" (click)="goToUsersPage()">Show Users</button>-->
+  <!--    <br>-->
+  <!--    <button mat-raised-button color="primary" (click)="goToUsersPageParam()">Show Users Param</button>-->
+  <!--    <br>-->
+  <!--    <button-->
+  <!--      mat-raised-button-->
+  <!--      color="primary"-->
+  <!--      (click)="showFormForAdding = !showFormForAdding">-->
+  <!--      Show Form for Movie-->
+  <!--    </button>-->
 
-
-  </mat-grid-tile>
 
   <mat-grid-tile>
-    Best movie has score:
-    <div [ngSwitch]="bestTitle">
-      <div *ngSwitchCase="5">5</div>
-      <div *ngSwitchCase="10">10</div>
-      <div *ngSwitchCase="15">15</div>
-    </div>
+    <!--    Best movie has score:-->
+    <!--    <div [ngSwitch]="bestTitle">-->
+    <!--      <div *ngSwitchCase="5">5</div>-->
+    <!--      <div *ngSwitchCase="10">10</div>-->
+    <!--      <div *ngSwitchCase="15">15</div>-->
+    <!--    </div>-->
   </mat-grid-tile>
 
-  <mat-grid-tile  *appShowAddNewForm="showFormForAdding">
-    <app-add-new-movie (addNewMovieEvent)="onAddNewMovie($event)"></app-add-new-movie>
-  </mat-grid-tile>
+  <!--  <mat-grid-tile  *appShowAddNewForm="showFormForAdding">-->
+  <!--    <app-add-new-movie (addNewMovieEvent)="onAddNewMovie($event)"></app-add-new-movie>-->
+  <!--  </mat-grid-tile>-->
 </mat-grid-list>

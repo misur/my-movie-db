@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Movie} from '../../models/movie.model';
 
 @Component({
   selector: 'app-movie-item-details',
@@ -7,11 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class MovieItemDetailsComponent implements OnInit {
   @Input()
-  movieItem: {
-    name: string,
-    description: string,
-    author: string
-  };
+  movieItem: Movie;
 
   constructor() {
 

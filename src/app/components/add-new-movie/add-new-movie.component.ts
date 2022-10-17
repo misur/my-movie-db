@@ -24,7 +24,7 @@ export class AddNewMovieComponent implements OnInit {
 
   addNewMovie(): void {
     this.userService.userStatus.emit(true);
-    this.databaseService.addMovie(this.movie);
+    // this.databaseService.addMovie(this.movie);
     // this.addNewMovieEvent.emit(this.movie);
     this.movie = {
       name: '',

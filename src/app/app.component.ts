@@ -4,7 +4,7 @@ import {
   AfterViewChecked,
   AfterViewInit,
   Component, DoCheck,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   SimpleChanges
 } from '@angular/core';
@@ -21,12 +21,13 @@ import {Router} from '@angular/router';
   styleUrls: ['./app.component.scss'],
   providers: [DatabaseService]
 })
-export class AppComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, AfterViewChecked, AfterContentChecked, DoCheck {
+export class AppComponent implements OnInit, OnChanges, OnDestroy, AfterContentInit, AfterViewInit,
+  AfterViewChecked, AfterContentChecked, DoCheck {
   title = 'My Movie DB';
   faFilm = faFilm;
   faUser = faUser;
   login = faRightToBracket;
-  loggedUser: {username: string, email: string} = null;
+  loggedUser: { username: string, email: string } = null;
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -36,13 +37,23 @@ export class AppComponent implements OnInit, OnChanges, AfterContentInit, AfterV
   }
 
   ngOnInit(): void {
-    this.loggedUser = this.userService.loggedUser;
-    console.log('Logged user is: ' + this.userService.getLoggedUser().username);
+    this.userService.activeEmitter.subscribe(data => {
+      this.loggedUser = data;
+    });
 
+    // console.log('Logged user is: ' + this.userService.getLog gedUser().username);
+  }
+
+  ngOnDestroy() {
+    this.userService.activeEmitter.unsubscribe();
   }
 
   onLogin() {
-    this.userService.setLoggedUser({username: 'misur2', email: 'misur@gmail.com'});
+    this.userService.activeEmitter.next({username: 'misur', email: 'misur@gmail.com'});
+  }
+
+  onLogout() {
+    this.userService.activeEmitter.next(null);
   }
 
   ngAfterContentInit(): void {

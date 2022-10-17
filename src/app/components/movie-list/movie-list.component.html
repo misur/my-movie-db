@@ -1,21 +1,25 @@
-<h1 appHighLight [textDecoration]="'underline'">Movie List</h1>
+<div class="movie-list-comp">
+
+  <h1 appHighLight>Top 10 movies:</h1>
+
+  <mat-grid-list cols="5" rowHeight="300px" style="width: 100%">
+    <mat-grid-tile  *ngFor="let movie of findMovies()">
+      <app-movie-item-details
+
+        [movieItem]="movie">
+      </app-movie-item-details>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!--  <p *ngIf="movieList.length > 0; else noMovies">Number of Movies: {{findMovies().length}}</p>-->
+  <ng-template #noMovies>
+    <p [ngStyle]="{'background-color': getWarningColor(), 'padding': '5px'}">No Movies in DB</p>
+  </ng-template>
 
 
-<app-movie-item-details
-  *ngFor="let movie of findMovies()"
-  [movieItem]="movie">
-</app-movie-item-details>
+<!--    <mat-form-field class="example-full-width" appearance="fill">-->
+<!--      <mat-label>Search Movie</mat-label>-->
+<!--      <input matInput placeholder="Search Movie" [(ngModel)]="searchMovie">-->
+<!--    </mat-form-field>-->
 
-
-<p *ngIf="movieList.length > 0; else noMovies">Number of Movies: {{findMovies().length}}</p>
-<ng-template #noMovies>
-  <p [ngStyle]="{'background-color': getWarningColor(), 'padding': '5px'}">No Movies in DB</p>
-</ng-template>
-
-
-
-<mat-form-field class="example-full-width" appearance="fill">
-  <mat-label>Search Movie</mat-label>
-  <input matInput placeholder="Search Movie" [(ngModel)]="searchMovie">
-</mat-form-field>
-
+</div>

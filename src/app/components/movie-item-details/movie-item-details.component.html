@@ -1,5 +1,11 @@
-<mat-card style="margin: 4px 0 ;" >
-  <h3>{{movieItem.name}}</h3>
-  <hr>
-  <p>desc: {{movieItem.description}} | author: {{movieItem.author}}</p>
+
+<mat-card class="movie-details-card">
+  <mat-card-title-group>
+    <mat-card-title style="font-size: 16px"> {{movieItem.title | shortenPipe: 20}}</mat-card-title>
+    <mat-card-subtitle>{{movieItem.rating}}</mat-card-subtitle>
+    <img mat-card-sm-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+  </mat-card-title-group>
+  <mat-card-content>
+    {{movieItem.description}}
+  </mat-card-content>
 </mat-card>

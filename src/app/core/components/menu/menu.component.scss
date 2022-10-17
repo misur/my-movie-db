@@ -1,0 +1,11 @@
+.menu-item{
+  border: 0;
+  background-color: transparent;
+  padding: 8px 12px;
+  &:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    background-color: white;
+
+  }
+}

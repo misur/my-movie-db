@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatInputModule} from '@angular/material/input';
@@ -21,10 +21,25 @@ import {HomeComponent} from './components/home/home.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {UserComponent} from './components/user/user.component';
-import { PageNotFoundComponent } from './core/components/page-not-found/page-not-found.component';
-import { EditUserComponent } from './components/edit-user/edit-user.component';
+import {PageNotFoundComponent} from './core/components/page-not-found/page-not-found.component';
+import {EditUserComponent} from './components/edit-user/edit-user.component';
 import {AuthServiceService} from './core/services/auth-service.service';
 import {AuthGuardService} from './core/services/auth-guard.service';
+import {MenuComponent} from './core/components/menu/menu.component';
+import {MoviesComponent} from './components/movies/movies.component';
+import {TvShowsComponent} from './components/tv-shows/tv-shows.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {ErrorFormMsgComponent} from './core/components/error-form-msg/error-form-msg.component';
+import {MatRadioModule} from '@angular/material/radio';
+import {AddNewMovieDialogComponent} from './components/movies/dialog/add-new-movie-dialog.component';
+import { AddNewUserComponent } from './components/add-new-user/add-new-user.component';
+import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
+import {ShortenPipe} from './core/pipes/shorten.pipe';
 
 
 @NgModule({
@@ -39,7 +54,14 @@ import {AuthGuardService} from './core/services/auth-guard.service';
     HomeComponent,
     UserComponent,
     PageNotFoundComponent,
-    EditUserComponent
+    EditUserComponent,
+    MenuComponent,
+    MoviesComponent,
+    TvShowsComponent,
+    AddNewMovieDialogComponent,
+    ErrorFormMsgComponent,
+    AddNewUserComponent,
+    ShortenPipe
   ],
   imports: [
     BrowserModule,
@@ -53,7 +75,17 @@ import {AuthGuardService} from './core/services/auth-guard.service';
     MatIconModule,
     MatGridListModule,
     MatToolbarModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    _MatMenuDirectivesModule,
+    MatMenuModule
   ],
   providers: [UserService, AuthServiceService, AuthGuardService],
   bootstrap: [AppComponent]

@@ -1,10 +1,11 @@
 import {EventEmitter, Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private  test: string = 'ste';
+  activeEmitter = new Subject<{ username: string, email: string }>();
 
   loggedUser = {username: 'misur', email: 'misur@gmail.com'};
 
@@ -17,7 +18,9 @@ export class UserService {
     return this.loggedUser;
   }
 
+
   setLoggedUser(user) {
+
     this.loggedUser = user;
   }
 }

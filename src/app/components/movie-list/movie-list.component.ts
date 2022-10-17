@@ -1,13 +1,15 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {Movie} from '../../models/movie.model';
 
 @Component({
   selector: 'app-movie-list',
-  templateUrl: './movie-list.component.html'
+  templateUrl: './movie-list.component.html',
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class MovieListComponent implements OnInit, OnChanges {
   searchMovie = '';
 
-  @Input('movieListService') movieList = [];
+  @Input('movieListService') movieList: Movie[] = [];
   randomNumber = 0;
 
   constructor() {
@@ -16,11 +18,10 @@ export class MovieListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.searchMovie = 'Matrix';
   }
 
   onClickSearch() {
-    this.movieList.push({description: 'Comedy', name: 'American pie', author: 'Arthur'});
+    // this.movieList.push({description: 'Comedy', name: 'American pie', author: 'Arthur'});
     // console.log('searching movies');
   }
 
@@ -30,7 +31,10 @@ export class MovieListComponent implements OnInit, OnChanges {
 
   findMovies() {
     if (this.searchMovie !== null && this.searchMovie.trim() !== '') {
-      return this.movieList.filter(item => item.name.toLowerCase().includes(this.searchMovie.toLowerCase()));
+      this.movieList.filter((item: Movie) => {
+        return item.title.toLowerCase().includes(this.searchMovie.toLowerCase());
+      });
+      //
     }
     return this.movieList;
   }

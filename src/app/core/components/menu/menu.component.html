@@ -1,0 +1,8 @@
+<mat-toolbar>
+  <button *ngFor="let item of menuList" class="menu-item" aria-label="Example icon-button with menu icon" [routerLink]="[item.url]">
+    {{item.title}}
+  </button>
+
+  <span class="example-spacer"></span>
+
+</mat-toolbar>

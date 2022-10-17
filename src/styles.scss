@@ -1,8 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-.my-title {
-  color: white;
-  background-color: #24292e;
-}
+
 .example-spacer {
   flex: 1 1 auto;
+}
+
+.movie-list-comp{
+  background-color: rgba(127, 217, 255, 0.16);
+  padding: 12px;
+  border-radius: 10px;
 }

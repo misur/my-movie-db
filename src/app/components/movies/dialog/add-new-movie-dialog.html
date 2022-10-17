@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>Add New Movie</h2>
+<form class="example-form" (ngSubmit)="onSubmit(formAddNewMovie)" #formAddNewMovie="ngForm" >
+  <mat-dialog-content class="mat-typography">
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Title</mat-label>
+      <input ngModel name="title"
+             required
+             [(ngModel)]="newMovie.title"
+             #title="ngModel"
+             matInput placeholder="Insert Title">
+      <mat-error *ngIf="title.hasError('required')">
+        Title is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Director</mat-label>
+      <input ngModel name="director"
+             matInput placeholder="Insert Director">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea ngModel name="description"
+                matInput placeholder="Insert Description"></textarea>
+    </mat-form-field>
+
+
+    <mat-slider ngModel name="rating" min="1" max="5" step="0.5" value="1.5" aria-label="unit(s)"></mat-slider>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Select</mat-label>
+      <mat-select ngModel name="year" [(ngModel)]="newMovie.year">
+        <mat-option *ngFor="let year of listOfYear" value="{{year}}">{{year}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div >
+      <label>Viewed: </label>
+      <mat-radio-group ngModel name="seen" [(ngModel)]="newMovie.seen">
+        <mat-radio-button value="true">Yes</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+
+    </div>
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <!--  <button mat-button [mat-dialog-close]="{title: 'new movie'}" cdkFocusInitial>Add</button>-->
+    <button mat-button type="submit" cdkFocusInitial>Add</button>
+  </mat-dialog-actions>
+</form>

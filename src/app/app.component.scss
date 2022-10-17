@@ -1,7 +1,7 @@
 
 .my-title {
-  color: white;
-  background-color: #24292e;
+  color: black;
+  background-color: transparent;
 }
 
 .head-title{
@@ -12,3 +12,11 @@
   background-color: lightgreen;
 }
 
+.movie-list-comp{
+  background-color: aquamarine;
+  padding: 12px;
+}
+
+.example-container .mat-radio-button {
+  margin: 0 12px;
+}
