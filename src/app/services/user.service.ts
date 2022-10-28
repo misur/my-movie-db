@@ -3,6 +3,7 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {User} from '../models/User';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class UserService implements OnDestroy {
     params: this.searchParams
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loggedUser.subscribe(value => {
       this.loggedUserObj = value;
     });
@@ -92,8 +93,8 @@ export class UserService implements OnDestroy {
 
   logout(){
     this.loggedUser.next(null);
-    // localStorage.setItem('loggedUser', null);
     localStorage.removeItem('loggedUser');
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {

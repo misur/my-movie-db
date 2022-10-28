@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {UserService} from '../../services/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {AlertComponent} from '../../core/components/alert/alert.component';
+import {PlaceholderDirective} from '../../core/directives/placeholder.directive';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-add-new-user',
@@ -16,7 +19,12 @@ export class AddNewUserComponent implements OnInit {
   loadingBar = false;
   loggedUser = null;
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar) {
+  @ViewChild(PlaceholderDirective, {static: false}) alertHost: PlaceholderDirective;
+  private closeSub: Subscription;
+
+  constructor(private userService: UserService,
+              private snackBar: MatSnackBar,
+              private componentFactoryResolver: ComponentFactoryResolver) {
   }
 
   ngOnInit(): void {
@@ -55,7 +63,7 @@ export class AddNewUserComponent implements OnInit {
           this.loadingBar = false;
         }, error => {
           this.loadingBar = false;
-          console.log(error);
+          this.showErrorAlert(error);
         });
     }
   }
@@ -80,4 +88,21 @@ export class AddNewUserComponent implements OnInit {
     });
   }
 
+  private showErrorAlert(error: HttpErrorResponse) {
+    const alertCmpFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+
+    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    hostViewContainerRef.clear();
+
+    const alertComponentComponentRef = hostViewContainerRef.createComponent(alertCmpFactory);
+
+    alertComponentComponentRef.instance.message = error.error;
+
+    this.closeSub = alertComponentComponentRef.instance.close.subscribe(() => {
+      this.closeSub.unsubscribe();
+      hostViewContainerRef.clear();
+    });
+
+
+  }
 }

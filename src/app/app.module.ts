@@ -45,6 +45,8 @@ import {LoginComponent} from './core/components/login/login.component';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {AuthInterceptorService} from './core/interceptors/auth-interceptor.service';
+import { AlertComponent } from './core/components/alert/alert.component';
+import { PlaceholderDirective } from './core/directives/placeholder.directive';
 
 
 @NgModule({
@@ -67,7 +69,9 @@ import {AuthInterceptorService} from './core/interceptors/auth-interceptor.servi
     ErrorFormMsgComponent,
     AddNewUserComponent,
     ShortenPipe,
-    LoginComponent
+    LoginComponent,
+    AlertComponent,
+    PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -101,7 +105,8 @@ import {AuthInterceptorService} from './core/interceptors/auth-interceptor.servi
     AuthServiceService,
     AuthGuardService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AlertComponent]
 })
 export class AppModule {
 }

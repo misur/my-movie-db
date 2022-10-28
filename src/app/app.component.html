@@ -20,10 +20,10 @@
   </button>
   <mat-menu #menu>
     <div   *ngIf="!loggedUser">
-      <a mat-flat-button target="_blank"  (click)="onLogin()">Login</a>
+      <a mat-flat-button target="_blank" style="width: 100%;"  (click)="onLogin()">Login</a>
     </div>
     <div  *ngIf="loggedUser">
-      <a mat-flat-button target="_blank" (click)="onLogout()" >Logout</a>
+      <a mat-flat-button target="_blank" style="width: 100%;" (click)="onLogout()" >Logout</a>
     </div>
 
   </mat-menu>
