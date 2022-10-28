@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Movie} from '../models/movie.model';
+import {UserService} from './user.service';
+import {exhaustMap, map, take} from 'rxjs/operators';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -50,14 +53,33 @@ export class MoviesService {
     }
   ];
 
-  constructor() {
+  constructor(private userService: UserService, private http: HttpClient) {
   }
 
   getMovies() {
     return this.movies;
   }
-  addMovie(movie: Movie){
+
+  addMovie(movie: Movie) {
     // TODO: Implement validation
     this.movies.push(movie);
+  }
+
+  getMoviesWS() {
+
+    return this.userService.loggedUser.pipe(
+      take(1),
+      exhaustMap(user => {
+        if (user) {
+          const httpOptions = {
+            params: new HttpParams().set('token', user.id)
+          };
+          return this.http.get(this.userService.URL + 'movies', httpOptions);
+        }
+        return [];
+      }),
+      map(item => {
+        return item;
+      }));
   }
 }

@@ -8,13 +8,15 @@ import {EditUserComponent} from './components/edit-user/edit-user.component';
 import {AuthGuardService} from './core/services/auth-guard.service';
 import {MoviesComponent} from './components/movies/movies.component';
 import {TvShowsComponent} from './components/tv-shows/tv-shows.component';
+import {LoginComponent} from './core/components/login/login.component';
 
 
 const routes: Routes = [
   {path: '', component: HomeComponent },
+  {path: 'login', component: LoginComponent },
   {path: 'movies', component: MoviesComponent },
-  {path: 'tv-shows', component: TvShowsComponent },
-  {path: 'users', component: UsersComponent },
+  {path: 'tv-shows', component: TvShowsComponent,  canActivate: [AuthGuardService] },
+  {path: 'users', component: UsersComponent,  canActivate: [AuthGuardService]},
   {path: 'users/:id', component: UserComponent },
   {path: 'users/:id/edit', component: EditUserComponent, canActivate: [AuthGuardService]},
   {path: 'not-found', component: PageNotFoundComponent},

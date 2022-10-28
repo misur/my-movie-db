@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
+import {UserService} from '../../services/user.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-new-user',
@@ -10,9 +12,11 @@ import {Observable} from 'rxjs';
 export class AddNewUserComponent implements OnInit {
   hide = true;
   signupForm: FormGroup;
-  forbiddenUsernameArray = ['misur', 'misur1'];
+  forbiddenUsernameArray = ['syn', 'syn32'];
+  loadingBar = false;
+  loggedUser = null;
 
-  constructor() {
+  constructor(private userService: UserService, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -20,19 +24,40 @@ export class AddNewUserComponent implements OnInit {
       {
         username: new FormControl(null, [Validators.required, Validators.min(4), Validators.max(12), this.forbiddenUsername.bind(this)]),
         email: new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails.bind(this)),
-        password: new FormControl(null, [Validators.required, Validators.min(8), Validators.max(12)])
+        // password: new FormControl(null, [Validators.required, Validators.min(8), Validators.max(12)])
+        password: new FormControl(null, [Validators.required])
       }
     );
+    this.loggedUser = this.userService.loggedUserObj;
 
-    this.signupForm.valueChanges.subscribe(
-      (value) => {
-        console.log(value);
-      }
-    );
+    // this.signupForm.valueChanges.subscribe(
+    //   (value) => {
+    //     console.log(value);
+    //   }
+    // );
   }
 
   onSubmit(): void {
-    console.log(this.signupForm);
+    if (this.signupForm.valid) {
+      this.loadingBar = true;
+      this.userService.createNewUser(this.signupForm.value)
+        .subscribe(response => {
+          this.loadingBar = false;
+          this.signupForm.reset();
+          this.signupForm.controls['username'].setErrors(null);
+          this.signupForm.controls['email'].setErrors(null);
+          this.signupForm.controls['password'].setErrors(null);
+          this.signupForm.setErrors(null);
+          this.signupForm.markAsUntouched();
+          this.snackBar.open('Successfully created user', 'OK', {
+            duration: 3000
+          });
+          this.loadingBar = false;
+        }, error => {
+          this.loadingBar = false;
+          console.log(error);
+        });
+    }
   }
 
 

@@ -1,0 +1,38 @@
+<div class="login-form">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h3>Login</h3>
+    <mat-progress-bar mode="indeterminate" *ngIf="loadingBar"></mat-progress-bar>
+    <mat-form-field appearance="fill" class="w-300">
+      <mat-label>Username</mat-label>
+      <input matInput id="username" formControlName="username">
+      <mat-error *ngIf="loginForm.get('username').hasError('required')">
+        Username is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('username').hasError('nameIsForbidden')">
+        Username is <strong>forbidden</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" class="w-300">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" id="password" formControlName="password">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="loginForm.get('password').hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('password').hasError('emailIsForbidden')">
+        Password is <strong>forbidden</strong>
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('password').hasError('min')">
+        Password must be greater than <strong>8</strong>
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('password').hasError('max')">
+        Password must be lower than <strong>12</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button class="w-300" color="primary" type="submit">Login</button>
+  </form>
+</div>

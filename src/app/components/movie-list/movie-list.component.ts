@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {Movie} from '../../models/movie.model';
+import {MoviesService} from '../../services/movies.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -12,12 +13,20 @@ export class MovieListComponent implements OnInit, OnChanges {
   @Input('movieListService') movieList: Movie[] = [];
   randomNumber = 0;
 
-  constructor() {
+  constructor(private movieService: MoviesService) {
     // this.searchMovie = 'Matrix';
     this.randomNumber = Math.random();
   }
 
   ngOnInit() {
+    this.movieService.getMoviesWS().subscribe(
+      result => {
+        console.log(result);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   onClickSearch() {

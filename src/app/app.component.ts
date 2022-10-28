@@ -14,6 +14,7 @@ import {faFilm} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {faRightToBracket} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
+import {User} from './models/User';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy, AfterContentI
   faFilm = faFilm;
   faUser = faUser;
   login = faRightToBracket;
-  loggedUser: { username: string, email: string } = null;
+
+  loggedUser: User = null;
 
 
   constructor(private userService: UserService, private router: Router) {
@@ -37,9 +39,13 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy, AfterContentI
   }
 
   ngOnInit(): void {
-    this.userService.activeEmitter.subscribe(data => {
+    this.userService.autoLogin();
+    this.userService.loggedUser.subscribe(data => {
       this.loggedUser = data;
     });
+    // this.userService.activeEmitter.subscribe(data => {
+    //   this.loggedUser = data;
+    // });
 
     // console.log('Logged user is: ' + this.userService.getLog gedUser().username);
   }
@@ -49,11 +55,11 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy, AfterContentI
   }
 
   onLogin() {
-    this.userService.activeEmitter.next({username: 'misur', email: 'misur@gmail.com'});
+    this.router.navigate(['/login']);
   }
 
   onLogout() {
-    this.userService.activeEmitter.next(null);
+    this.userService.logout();
   }
 
   ngAfterContentInit(): void {

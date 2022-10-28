@@ -37,9 +37,14 @@ import {MatSelectModule} from '@angular/material/select';
 import {ErrorFormMsgComponent} from './core/components/error-form-msg/error-form-msg.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {AddNewMovieDialogComponent} from './components/movies/dialog/add-new-movie-dialog.component';
-import { AddNewUserComponent } from './components/add-new-user/add-new-user.component';
+import {AddNewUserComponent} from './components/add-new-user/add-new-user.component';
 import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
 import {ShortenPipe} from './core/pipes/shorten.pipe';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {LoginComponent} from './core/components/login/login.component';
+import { MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {AuthInterceptorService} from './core/interceptors/auth-interceptor.service';
 
 
 @NgModule({
@@ -61,7 +66,8 @@ import {ShortenPipe} from './core/pipes/shorten.pipe';
     AddNewMovieDialogComponent,
     ErrorFormMsgComponent,
     AddNewUserComponent,
-    ShortenPipe
+    ShortenPipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -85,9 +91,16 @@ import {ShortenPipe} from './core/pipes/shorten.pipe';
     MatRadioModule,
     ReactiveFormsModule,
     _MatMenuDirectivesModule,
-    MatMenuModule
+    MatMenuModule,
+    HttpClientModule,
+    MatSnackBarModule,
+    MatProgressBarModule
   ],
-  providers: [UserService, AuthServiceService, AuthGuardService],
+  providers: [
+    UserService,
+    AuthServiceService,
+    AuthGuardService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -19,7 +19,6 @@ export class AddNewMovieComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Logged user is: ' + this.userService.getLoggedUser().username);
   }
 
   addNewMovie(): void {
