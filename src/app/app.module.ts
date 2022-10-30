@@ -21,11 +21,9 @@ import {HomeComponent} from './components/home/home.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {UserComponent} from './components/user/user.component';
-import {PageNotFoundComponent} from './core/components/page-not-found/page-not-found.component';
 import {EditUserComponent} from './components/edit-user/edit-user.component';
 import {AuthServiceService} from './core/services/auth-service.service';
 import {AuthGuardService} from './core/services/auth-guard.service';
-import {MenuComponent} from './core/components/menu/menu.component';
 import {MoviesComponent} from './components/movies/movies.component';
 import {TvShowsComponent} from './components/tv-shows/tv-shows.component';
 import {MatTableModule} from '@angular/material/table';
@@ -34,19 +32,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import {ErrorFormMsgComponent} from './core/components/error-form-msg/error-form-msg.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {AddNewMovieDialogComponent} from './components/movies/dialog/add-new-movie-dialog.component';
 import {AddNewUserComponent} from './components/add-new-user/add-new-user.component';
 import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
-import {ShortenPipe} from './core/pipes/shorten.pipe';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {LoginComponent} from './core/components/login/login.component';
-import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { HttpClientModule} from '@angular/common/http';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {AuthInterceptorService} from './core/interceptors/auth-interceptor.service';
-import { AlertComponent } from './core/components/alert/alert.component';
-import { PlaceholderDirective } from './core/directives/placeholder.directive';
+import {ActorsModule} from './modules/actors/actors.module';
+import {CoreModule} from './core/core.module';
 
 
 @NgModule({
@@ -60,18 +54,11 @@ import { PlaceholderDirective } from './core/directives/placeholder.directive';
     UsersComponent,
     HomeComponent,
     UserComponent,
-    PageNotFoundComponent,
     EditUserComponent,
-    MenuComponent,
     MoviesComponent,
     TvShowsComponent,
     AddNewMovieDialogComponent,
-    ErrorFormMsgComponent,
     AddNewUserComponent,
-    ShortenPipe,
-    LoginComponent,
-    AlertComponent,
-    PlaceholderDirective
   ],
   imports: [
     BrowserModule,
@@ -98,15 +85,13 @@ import { PlaceholderDirective } from './core/directives/placeholder.directive';
     MatMenuModule,
     HttpClientModule,
     MatSnackBarModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    CoreModule
   ],
   providers: [
-    UserService,
-    AuthServiceService,
-    AuthGuardService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
+    UserService
+   ],
   bootstrap: [AppComponent],
-  entryComponents: [AlertComponent]
 })
 export class AppModule {
 }

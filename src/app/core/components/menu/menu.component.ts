@@ -12,10 +12,11 @@ export class MenuComponent implements OnInit {
   menuList = [];
 
   constructor(private database: DatabaseService, private userService: UserService) {
-    this.menuList = [...this.database.getMenuList()];
+    this.menuList = this.resetMenu(this.database.getMenuList());
 
     this.userService.loggedUser.subscribe(value => {
-      this.menuList = [...this.database.getMenuList()];
+      this.menuList = this.resetMenu(this.database.getMenuList());
+
       this.isLogged = !!value;
       if (this.isLogged) {
         this.menuList.map(item => {
@@ -25,6 +26,11 @@ export class MenuComponent implements OnInit {
         });
       }
     });
+  }
+  resetMenu(arr){
+    const myClonedArray = [];
+    arr.forEach(val => myClonedArray.push(Object.assign({}, val)));
+    return myClonedArray;
   }
 
   showItem(item) {
