@@ -22,8 +22,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {UserComponent} from './components/user/user.component';
 import {EditUserComponent} from './components/edit-user/edit-user.component';
-import {AuthServiceService} from './core/services/auth-service.service';
-import {AuthGuardService} from './core/services/auth-guard.service';
 import {MoviesComponent} from './components/movies/movies.component';
 import {TvShowsComponent} from './components/tv-shows/tv-shows.component';
 import {MatTableModule} from '@angular/material/table';
@@ -36,11 +34,14 @@ import {MatRadioModule} from '@angular/material/radio';
 import {AddNewMovieDialogComponent} from './components/movies/dialog/add-new-movie-dialog.component';
 import {AddNewUserComponent} from './components/add-new-user/add-new-user.component';
 import {_MatMenuDirectivesModule, MatMenuModule} from '@angular/material/menu';
-import { HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {ActorsModule} from './modules/actors/actors.module';
 import {CoreModule} from './core/core.module';
+import {StoreModule} from '@ngrx/store';
+import * as fromAppReducer from './core/stores/app.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {ActorsEffects} from './services/stores/actors-store/actors.effects';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import {CoreModule} from './core/core.module';
     MoviesComponent,
     TvShowsComponent,
     AddNewMovieDialogComponent,
-    AddNewUserComponent,
+    AddNewUserComponent
   ],
   imports: [
     BrowserModule,
@@ -86,12 +87,15 @@ import {CoreModule} from './core/core.module';
     HttpClientModule,
     MatSnackBarModule,
     MatProgressBarModule,
-    CoreModule
+    CoreModule,
+    StoreModule.forRoot(fromAppReducer.appReducer),
+    EffectsModule.forRoot([ActorsEffects])
+
   ],
   providers: [
     UserService
-   ],
-  bootstrap: [AppComponent],
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

@@ -18,6 +18,7 @@ import {AuthInterceptorService} from './interceptors/auth-interceptor.service';
 import {ShortenPipe} from './pipes/shorten.pipe';
 import {AuthServiceService} from './services/auth-service.service';
 import {AuthGuardService} from './services/auth-guard.service';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -29,16 +30,17 @@ import {AuthGuardService} from './services/auth-guard.service';
     PlaceholderDirective,
     ShortenPipe,
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatIconModule,
-    MatProgressBarModule
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatIconModule,
+        MatProgressBarModule,
+        MatButtonModule
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
     AuthServiceService,

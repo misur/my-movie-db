@@ -10,7 +10,6 @@ export class ErrorFormMsgComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    debugger;
     console.log('show error');
   }
 

@@ -1,0 +1,22 @@
+{
+  "actors": [
+    {
+      "id": "212343",
+      "name": "Petar",
+      "surname": "Petrovic",
+      "age": 33
+    },
+    {
+      "id": "32345",
+      "name": "Janko",
+      "surname": "Jankovic",
+      "age": 30
+    },
+    {
+      "id": "34553",
+      "name": "Branko",
+      "surname": "Brankovic",
+      "age": 33
+    }
+  ]
+}

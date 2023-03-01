@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {DatabaseService} from '../../../services/database.service';
 import {UserService} from '../../../services/user.service';
-
+import {map, take} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import * as appReducer from './../../stores/app.reducer';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -11,10 +13,15 @@ export class MenuComponent implements OnInit {
   isLogged = false;
   menuList = [];
 
-  constructor(private database: DatabaseService, private userService: UserService) {
+  constructor(private database: DatabaseService, private userService: UserService, private store: Store<appReducer.AppState>) {
     this.menuList = this.resetMenu(this.database.getMenuList());
 
-    this.userService.loggedUser.subscribe(value => {
+    this.store.select('auth').pipe(
+      take(1),
+      map(authState => {
+        return authState.user;
+      })
+    ).subscribe(value => {
       this.menuList = this.resetMenu(this.database.getMenuList());
 
       this.isLogged = !!value;

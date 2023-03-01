@@ -2,21 +2,26 @@ import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {User} from '../models/User';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {map, tap} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
+import {Store} from '@ngrx/store';
+
+import * as fromAppState from './../core/stores/app.reducer';
+import * as AuthActions from './stores/auth.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService implements OnDestroy {
 
-  URL = 'http://localhost:4000/';
+  URL = environment.backendServerURI;
 
   activeEmitter = new Subject<{ username: string, email: string }>();
 
-  loggedUser = new BehaviorSubject<User>(null);
+  // loggedUser = new BehaviorSubject<User>(null);
   // loggedUser = new Subject<User>();
-  loggedUserObj = null;
+  public loggedUserObj = null;
 
   userStatus = new EventEmitter<boolean>();
 
@@ -27,8 +32,13 @@ export class UserService implements OnDestroy {
     params: this.searchParams
   };
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.loggedUser.subscribe(value => {
+  constructor(private http: HttpClient, private router: Router, private store: Store<fromAppState.AppState>) {
+    this.store.select('auth').pipe(
+      take(1),
+      map(authState => {
+        return authState.user;
+      })
+    ).subscribe(value => {
       this.loggedUserObj = value;
     });
   }
@@ -58,7 +68,12 @@ export class UserService implements OnDestroy {
 
 
   getLoggedUser() {
-    return this.loggedUser;
+    return this.store.select('auth').pipe(
+      take(1),
+      map(authState => {
+        return authState.user;
+      })
+    );
   }
 
 
@@ -78,7 +93,8 @@ export class UserService implements OnDestroy {
     user.email = email;
     user.password = password;
     user.id = id;
-    this.loggedUser.next(user);
+    // this.loggedUser.next(user);
+    this.store.dispatch(new AuthActions.Login(user));
     localStorage.setItem('loggedUser', JSON.stringify(user));
   }
 
@@ -86,18 +102,20 @@ export class UserService implements OnDestroy {
     return this.http.get<User>(this.URL + 'user');
   }
 
-  autoLogin(){
+  autoLogin() {
     const user: User = JSON.parse(localStorage.getItem('loggedUser'));
-    this.loggedUser.next(user);
+    // this.loggedUser.next(user);
+    this.store.dispatch(new AuthActions.Login(user));
   }
 
-  logout(){
-    this.loggedUser.next(null);
+  logout() {
+    // this.loggedUser.next(null);
+    this.store.dispatch(new AuthActions.Logout(null));
     localStorage.removeItem('loggedUser');
     this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {
-    this.loggedUser.unsubscribe();
+    // this.loggedUser.unsubscribe();
   }
 }

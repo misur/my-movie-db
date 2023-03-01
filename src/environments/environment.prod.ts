@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  movieKey: 'my-movie-db-key',
+  backendServerURI: 'http://localhost:4000/'
 };

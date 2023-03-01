@@ -15,6 +15,10 @@ import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {faRightToBracket} from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 import {User} from './models/User';
+import {Store} from '@ngrx/store';
+
+import * as appReducer from './core/stores/app.reducer';
+import {map, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -32,15 +36,20 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy, AfterContentI
   loggedUser: User = null;
 
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private store: Store<appReducer.AppState>) {
+    this.userService.autoLogin();
   }
 
   onAddNewMovie(movie): void {
   }
 
   ngOnInit(): void {
-    this.userService.autoLogin();
-    this.userService.loggedUser.subscribe(data => {
+    this.store.select('auth').pipe(
+      take(1),
+      map(authState => {
+        return authState.user;
+      })
+    ).subscribe(data => {
       this.loggedUser = data;
     });
     // this.userService.activeEmitter.subscribe(data => {

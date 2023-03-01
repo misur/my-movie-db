@@ -3,6 +3,9 @@ import {Movie} from '../models/movie.model';
 import {UserService} from './user.service';
 import {exhaustMap, map, take} from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Store} from '@ngrx/store';
+
+import * as appReducer from '../core/stores/app.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +56,7 @@ export class MoviesService {
     }
   ];
 
-  constructor(private userService: UserService, private http: HttpClient) {
+  constructor(private userService: UserService, private http: HttpClient, private store: Store<appReducer.AppState>) {
   }
 
   getMovies() {
@@ -67,8 +70,11 @@ export class MoviesService {
 
   getMoviesWS() {
 
-    return this.userService.loggedUser.pipe(
+    return this.store.select('auth').pipe(
       take(1),
+      map(authState => {
+        return authState.user;
+      }),
       exhaustMap(user => {
         if (user) {
           const httpOptions = {
