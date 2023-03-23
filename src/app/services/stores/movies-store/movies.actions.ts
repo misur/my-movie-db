@@ -1,9 +1,11 @@
 import {Action} from '@ngrx/store';
-import {Movie} from '../../models/movie.model';
+import {Movie} from '../../../models/movie.model';
 
 export const ADD_MOVIE = 'ADD_MOVIE';
 export const ADD_MOVIES = 'ADD_MOVIES';
 export const DELETE_MOVIES = 'DELETE_MOVIES';
+
+export const ADD_MOVIE_START = 'ADD_MOVIE_START';
 
 export class AddMovie implements Action {
   readonly type: string = ADD_MOVIE;
@@ -26,4 +28,11 @@ export class DeleteMovies implements Action {
   }
 }
 
-export type MoviesActions = AddMovie | AddMovies | DeleteMovies;
+export class AddMovieStart implements Action {
+  readonly type: string = ADD_MOVIE_START;
+
+  constructor() {
+  }
+}
+
+export type MoviesActions = AddMovie | AddMovies | DeleteMovies | AddMovieStart;

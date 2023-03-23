@@ -9,7 +9,7 @@
 <ul>
   <li *ngFor="let item of (movies | async).movies; let i = index;">
     {{i}} - {{item.title}} <button mat-icon-button color="primary" (click)="deleteMovie(i)"> <span class="material-symbols-outlined">
-close
+Delete
 </span></button>
   </li>
 </ul>

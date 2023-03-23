@@ -8,7 +8,7 @@ import {Movie} from '../../models/movie.model';
 import {AddNewMovieDialogComponent} from './dialog/add-new-movie-dialog.component';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import * as MovieActions from '../../services/stores/movies.actions';
+import * as MovieActions from '../../services/stores/movies-store/movies.actions';
 import {AppState} from '../../core/stores/app.reducer';
 
 export interface DialogData {
@@ -42,6 +42,8 @@ export class MoviesComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.movies = this.store.select('movies');
+
+    this.store.dispatch(new MovieActions.AddMovieStart());
 
     this.dataSource = new MatTableDataSource(this.moviesService.getMovies());
   }

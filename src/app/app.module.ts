@@ -42,6 +42,9 @@ import {StoreModule} from '@ngrx/store';
 import * as fromAppReducer from './core/stores/app.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {ActorsEffects} from './services/stores/actors-store/actors.effects';
+import {MoviesEffects} from './services/stores/movies-store/movies.effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
 
 
 @NgModule({
@@ -89,8 +92,8 @@ import {ActorsEffects} from './services/stores/actors-store/actors.effects';
     MatProgressBarModule,
     CoreModule,
     StoreModule.forRoot(fromAppReducer.appReducer),
-    EffectsModule.forRoot([ActorsEffects])
-
+    EffectsModule.forRoot([ActorsEffects, MoviesEffects]),
+    StoreDevtoolsModule.instrument({logOnly: environment.production})
   ],
   providers: [
     UserService
