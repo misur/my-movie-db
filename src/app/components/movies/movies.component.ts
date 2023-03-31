@@ -8,8 +8,8 @@ import {Movie} from '../../models/movie.model';
 import {AddNewMovieDialogComponent} from './dialog/add-new-movie-dialog.component';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import * as MovieActions from '../../services/stores/movies-store/movies.actions';
 import {AppState} from '../../core/stores/app.reducer';
+import {MoviesActions} from '../../services/stores/movies-store/movies.actions';
 
 export interface DialogData {
   animal: string;
@@ -43,7 +43,7 @@ export class MoviesComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.movies = this.store.select('movies');
 
-    this.store.dispatch(new MovieActions.AddMovieStart());
+    this.store.dispatch( MoviesActions.addMovieStart());
 
     this.dataSource = new MatTableDataSource(this.moviesService.getMovies());
   }
@@ -63,14 +63,14 @@ export class MoviesComponent implements OnInit, AfterViewInit {
       if (result !== '' && result) {
         this.moviesService.addMovie(result);
         this.dataSource = new MatTableDataSource(this.moviesService.getMovies());
-        this.store.dispatch(new MovieActions.AddMovies([result]));
+        this.store.dispatch(MoviesActions.addMovie({movie: result}));
         console.log('The dialog was closed ' + JSON.stringify(result).toString());
       }
     });
   }
 
   deleteMovie(index: number) {
-    this.store.dispatch((new MovieActions.DeleteMovies(index)));
+    this.store.dispatch(MoviesActions.deleteMovie({movieIndex: index}));
   }
 
 }

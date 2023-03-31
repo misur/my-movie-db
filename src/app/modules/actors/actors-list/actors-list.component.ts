@@ -1,12 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Actor} from '../../../models/actor';
-import {Observable, of} from 'rxjs';
 import {AppState} from '../../../core/stores/app.reducer';
-import * as ActorActions from '../../../services/stores/actors-store/actors.actions';
-import {environment} from '../../../../environments/environment';
-import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
+import {ActorsActions} from '../../../services/stores/actors-store/actors.actions';
+import {ActorsService} from '../../../services/stores/actors-store/actors.service';
 
 @Component({
   selector: 'app-actors-list',
@@ -22,7 +20,8 @@ export class ActorsListComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private http: HttpClient
+    private http: HttpClient,
+    private actorsService: ActorsService
   ) {
   }
 
@@ -33,9 +32,7 @@ export class ActorsListComponent implements OnInit, OnDestroy {
         this.loading = data.loading;
       });
 
-    this.store.dispatch(new ActorActions.AddActorStart());
-
-
+    this.store.dispatch(ActorsActions.addActorStart());
   }
 
   ngOnDestroy() {
@@ -43,7 +40,7 @@ export class ActorsListComponent implements OnInit, OnDestroy {
   }
 
   deleteActor(actor: Actor) {
-    this.store.dispatch(new ActorActions.DeleteActor(actor));
+    this.store.dispatch(ActorsActions.deleteActor({actor}));
   }
 
 

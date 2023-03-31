@@ -1,23 +1,13 @@
-import {Action} from '@ngrx/store';
+import {createActionGroup, props} from '@ngrx/store';
 import {User} from '../../models/User';
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
 
-
-export class Login implements Action {
-  readonly type = LOGIN;
-
-  constructor(public payload: User) {
+export const AuthActions = createActionGroup({
+  source: 'Auth',
+  events: {
+    Login: props<{ user: User }>(),
+    Logout: props<{ user: User }>()
   }
-}
+});
 
-export class Logout implements Action {
-  readonly type = LOGOUT;
-
-  constructor(public payload: User) {
-  }
-}
-
-export type AuthActions = Login | Logout;
 

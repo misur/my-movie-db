@@ -46,10 +46,11 @@ import {MatButtonModule} from '@angular/material/button';
     AuthServiceService,
     AuthGuardService,
   ],
-  exports: [
-    MenuComponent,
-    ShortenPipe
-  ],
+    exports: [
+        MenuComponent,
+        ShortenPipe,
+        PlaceholderDirective
+    ],
   entryComponents: [AlertComponent]
 })
 export class CoreModule {

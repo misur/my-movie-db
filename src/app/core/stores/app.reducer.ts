@@ -13,6 +13,6 @@ export interface AppState {
 
 export const appReducer: ActionReducerMap<AppState> = {
   auth: authReducer.authReducer,
-  movies: moviesReducer.movieListReducer,
+  movies: moviesReducer.moviesReducer,
   actors: actorsReducer.actorsReducer
 };

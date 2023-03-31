@@ -29,7 +29,7 @@ export class AddNewMovieDialogComponent implements AfterViewInit {
       return;
     }
     this.dialogRef.close(form.value);
-    this.newForm.resetForm();
+    // this.newForm.resetForm();
   }
 
   ngAfterViewInit(): void {

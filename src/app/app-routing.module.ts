@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule, PreloadingStrategy, PreloadAllModules} from '@angular/router';
 import {HomeComponent} from './components/home/home.component';
 import {UsersComponent} from './components/users/users.component';
 import {UserComponent} from './components/user/user.component';
@@ -9,7 +8,7 @@ import {AuthGuardService} from './core/services/auth-guard.service';
 import {MoviesComponent} from './components/movies/movies.component';
 import {TvShowsComponent} from './components/tv-shows/tv-shows.component';
 import {LoginComponent} from './core/components/login/login.component';
-import {ActorsModule} from './modules/actors/actors.module';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
 
 const routes: Routes = [
@@ -20,7 +19,7 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent, canActivate: [AuthGuardService]},
   {path: 'users/:id', component: UserComponent},
   {path: 'users/:id/edit', component: EditUserComponent, canActivate: [AuthGuardService]},
-  {path: 'actors', loadChildren: './modules/actors/actors.module#ActorsModule'},
+  {path: 'actors', loadChildren: () => import('./modules/actors/actors.module').then( a => a.ActorsModule)},
   {path: 'not-found', component: PageNotFoundComponent},
   {path: '**', redirectTo: '/not-found'}
 ];

@@ -5,6 +5,8 @@ import {RouterModule, Routes} from '@angular/router';
 import { AddActorComponent } from './add-actor/add-actor.component';
 import { EditActorComponent } from './edit-actor/edit-actor.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {EffectsModule} from '@ngrx/effects';
+import {ActorsEffects} from '../../services/stores/actors-store/actors.effects';
 
 
 const routes: Routes = [
@@ -16,7 +18,8 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-        MatProgressBarModule
+        MatProgressBarModule,
+        EffectsModule.forFeature(ActorsEffects)
     ]
 })
 export class ActorsModule {

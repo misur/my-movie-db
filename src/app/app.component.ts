@@ -19,6 +19,7 @@ import {Store} from '@ngrx/store';
 
 import * as appReducer from './core/stores/app.reducer';
 import {map, take} from 'rxjs/operators';
+import {Movie} from './models/movie.model';
 
 @Component({
   selector: 'app-root',
@@ -33,17 +34,21 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy, AfterContentI
   faUser = faUser;
   login = faRightToBracket;
 
-  loggedUser: User = null;
+  loggedUser: User = {email: '', password: '', username: ''};
 
 
   constructor(private userService: UserService, private router: Router, private store: Store<appReducer.AppState>) {
     this.userService.autoLogin();
   }
 
-  onAddNewMovie(movie): void {
+  onAddNewMovie(movie: Movie): void {
   }
 
   ngOnInit(): void {
+
+    this.store.select('auth').subscribe( value => {
+      this.loggedUser = value.user;
+    });
     this.store.select('auth').pipe(
       take(1),
       map(authState => {

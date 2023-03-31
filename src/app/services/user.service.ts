@@ -8,7 +8,7 @@ import {environment} from '../../environments/environment';
 import {Store} from '@ngrx/store';
 
 import * as fromAppState from './../core/stores/app.reducer';
-import * as AuthActions from './stores/auth.actions';
+import {AuthActions} from './stores/auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -33,14 +33,14 @@ export class UserService implements OnDestroy {
   };
 
   constructor(private http: HttpClient, private router: Router, private store: Store<fromAppState.AppState>) {
-    this.store.select('auth').pipe(
-      take(1),
-      map(authState => {
-        return authState.user;
-      })
-    ).subscribe(value => {
-      this.loggedUserObj = value;
-    });
+    // this.store.select('auth').pipe(
+    //   take(1),
+    //   map(authState => {
+    //     return authState.user;
+    //   })
+    // ).subscribe(value => {
+    //   this.loggedUserObj = value;
+    // });
   }
 
   getListOfUser() {
@@ -79,9 +79,9 @@ export class UserService implements OnDestroy {
 
   setLoggedUser(user) {
     return this.http
-      .post<User>(this.URL + 'login', user, {observe: 'response'})
+      .get<User>(this.URL + 'user', user)
       .pipe(tap(value => {
-        this.handleAuth(value.body.username, value.body.email, value.body.password, value.body.id);
+        this.handleAuth(value[0].username, value[0].email, value[0].password, value[0].id);
       }));
 
     // this.userService.activeEmitter.next(this.loginForm.value);
@@ -94,7 +94,7 @@ export class UserService implements OnDestroy {
     user.password = password;
     user.id = id;
     // this.loggedUser.next(user);
-    this.store.dispatch(new AuthActions.Login(user));
+    this.store.dispatch(AuthActions.login({user}));
     localStorage.setItem('loggedUser', JSON.stringify(user));
   }
 
@@ -105,12 +105,12 @@ export class UserService implements OnDestroy {
   autoLogin() {
     const user: User = JSON.parse(localStorage.getItem('loggedUser'));
     // this.loggedUser.next(user);
-    this.store.dispatch(new AuthActions.Login(user));
+    this.store.dispatch(AuthActions.login({user}));
   }
 
   logout() {
     // this.loggedUser.next(null);
-    this.store.dispatch(new AuthActions.Logout(null));
+    this.store.dispatch(AuthActions.logout({user: null}));
     localStorage.removeItem('loggedUser');
     this.router.navigate(['/']);
   }

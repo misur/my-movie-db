@@ -62,5 +62,13 @@
       "rating": 1,
       "year": 1995
     }
+  ],
+  "user": [
+    {
+      "username": "mimi",
+      "email": "misur@gmail.com",
+      "password": "1234",
+      "id": 1
+    }
   ]
 }

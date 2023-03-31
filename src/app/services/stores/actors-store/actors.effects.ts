@@ -1,33 +1,30 @@
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import * as ActorsActions from './actors.actions';
-import {catchError, map, switchMap} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
-import {Actor} from '../../../models/actor';
-import {of} from 'rxjs';
+import {catchError, exhaustMap, map, switchMap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
+import {ActorsService} from './actors.service';
+import {EMPTY} from 'rxjs';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {ActorsActions} from './actors.actions';
 
 
 @Injectable()
 export class ActorsEffects {
-  constructor(private actions$: Actions, private http: HttpClient) {
+
+  actorsAdd$ = createEffect(() => this.actions$.pipe(
+    ofType(ActorsActions.addActorStart),
+
+    exhaustMap(() => {
+        return this.actorsService.getListOfActors()
+          .pipe(
+            map(actors => ActorsActions.addActorList({actors})),
+            catchError(() => EMPTY)
+          );
+      }
+    )
+  ));
+
+  constructor(
+    private actions$: Actions,
+    private actorsService: ActorsService
+  ) {
   }
-
-  @Effect()
-  actorsAdd = this.actions$.pipe(
-    ofType('[Actors list] Add actor start'),
-
-    switchMap((actors: ActorsActions.AddActorStart) => {
-      return this.http.get<Actor[]>(environment.backendServerURI + 'actors')
-        .pipe(
-          map(resp => {
-            return ({ type: '[Actors list] Add actors list', payload: resp });
-            }
-          ),
-          catchError(error => {
-            return of();
-          })
-        );
-    }),
-  );
 }

@@ -16,31 +16,40 @@ export class MenuComponent implements OnInit {
   constructor(private database: DatabaseService, private userService: UserService, private store: Store<appReducer.AppState>) {
     this.menuList = this.resetMenu(this.database.getMenuList());
 
+    this.store.select('auth').subscribe( value => {
+      console.log( 'subscirpbee', value);
+      this.afterUpdateState(value);
+    });
+
     this.store.select('auth').pipe(
       take(1),
       map(authState => {
         return authState.user;
       })
     ).subscribe(value => {
-      this.menuList = this.resetMenu(this.database.getMenuList());
-
-      this.isLogged = !!value;
-      if (this.isLogged) {
-        this.menuList.map(item => {
-          if (item.id === 3) {
-            item.url = item.url + '/' + value.id;
-          }
-        });
-      }
+      this.afterUpdateState(value);
     });
   }
-  resetMenu(arr){
-    const myClonedArray = [];
-    arr.forEach(val => myClonedArray.push(Object.assign({}, val)));
+
+  afterUpdateState(value){
+    this.menuList = this.resetMenu(this.database.getMenuList());
+
+    this.isLogged = !!value;
+    if (this.isLogged) {
+      this.menuList.map(item => {
+        if (item.id === 3) {
+          item.url = item.url + '/' + value.id;
+        }
+      });
+    }
+  }
+  resetMenu(arr: any){
+    const myClonedArray: any = [];
+    arr.forEach((val: any) => myClonedArray.push(Object.assign({}, val)));
     return myClonedArray;
   }
 
-  showItem(item) {
+  showItem(item: any) {
     if (this.isLogged) {
       return true;
     }

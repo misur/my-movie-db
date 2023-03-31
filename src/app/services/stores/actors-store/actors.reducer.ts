@@ -1,5 +1,6 @@
-import {ADD_ACTOR, ADD_ACTOR_START, ADD_LIST_ACTORS, DELETE_ACTOR, UPDATE_ACTOR} from './actors.actions';
+import {ActorsActions} from './actors.actions';
 import {Actor} from '../../../models/actor';
+import {createReducer, on} from '@ngrx/store';
 
 export interface State {
   actorsList: Actor [];
@@ -13,48 +14,49 @@ const initialState: State = {
   loading: false
 };
 
-export function actorsReducer(
-  state = initialState,
-  action: any): State {
-  switch (action.type) {
-    case ADD_ACTOR:
-      return {
-        ...state,
-        actorsList: [...state.actorsList, action.payload],
-        loading: false
-      };
-    case ADD_LIST_ACTORS:
-      return {
-        ...state,
-        actorsList: [...state.actorsList, ...action.payload],
-        loading: false
-      };
-    case DELETE_ACTOR:
-      return {
-        ...state,
-        actorsList: state.actorsList.filter((item) => {
-          return item.name !== action.payload.name && item.surname !== action.payload.surname;
-        })
-      };
-    case UPDATE_ACTOR:
-      const actor: Actor = state.actorsList[action.payload];
-      const updatedActor = {
-        ...actor,
-        ...action.updateActor
-      };
-      const updateActors = [...state.actorsList];
-      updateActors[action.payload] = updatedActor;
-      return {
-        ...state,
-        editedActor: updatedActor,
-        actorsList: updateActors
-      };
-    case ADD_ACTOR_START:
-      return {
-        ...state,
-        loading: true
-      };
-    default:
-      return state;
-  }
-}
+export const actorsReducer = createReducer(
+  initialState,
+  on(ActorsActions.addActor, (state, {actor}) => {
+    return {
+      ...state,
+      actorsList: [...state.actorsList, actor],
+      loading: false
+    };
+  }),
+  on(ActorsActions.addActorList, (state, {actors}) => {
+    return {
+      ...state,
+      actorsList: [...state.actorsList, ...actors],
+      loading: false
+    };
+  }),
+  on(ActorsActions.updateActor, (state, {index, actor}) => {
+    const actorObj: Actor = state.actorsList[index];
+    const updatedActor = {
+      ...actor,
+      ...actorObj
+    };
+    const updateActors = [...state.actorsList];
+    updateActors[index] = updatedActor;
+    return {
+      ...state,
+      actorsList: updateActors
+    };
+  }),
+  on(ActorsActions.deleteActor, (state, {actor}) => {
+    return {
+      ...state,
+      actorsList: state.actorsList.filter((item) => {
+        return item.name !== actor.name && item.surname !== actor.surname;
+      })
+    };
+  }),
+  on(ActorsActions.addActorStart, (state) => {
+    return {
+      ...state,
+      loading: true
+    };
+  })
+);
+
+
