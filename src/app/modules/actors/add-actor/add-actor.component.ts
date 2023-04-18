@@ -18,7 +18,7 @@ export class AddActorComponent implements OnInit {
   }
 
   addNewActor() {
-    const actor = new Actor('Ognjen', 'Jaramaz');
+    const actor: Actor = {name: 'Ognjen', surname: 'Jaramaz', age: 55};
     this.store.dispatch(ActorsActions.addActor({actor}));
   }
 

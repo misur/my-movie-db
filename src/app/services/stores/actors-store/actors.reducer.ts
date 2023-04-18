@@ -17,6 +17,13 @@ const initialState: State = {
 export const actorsReducer = createReducer(
   initialState,
   on(ActorsActions.addActor, (state, {actor}) => {
+    // TODO: remove  dummy id
+    if (!actor.id) {
+      actor = {
+        ...actor,
+        id: Math.floor(Math.random() * 9999999).toString()
+      };
+    }
     return {
       ...state,
       actorsList: [...state.actorsList, actor],
@@ -54,6 +61,7 @@ export const actorsReducer = createReducer(
   on(ActorsActions.addActorStart, (state) => {
     return {
       ...state,
+      actorsList: [],
       loading: true
     };
   })

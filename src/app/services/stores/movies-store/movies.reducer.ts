@@ -1,7 +1,6 @@
 import {Movie} from '../../../models/movie.model';
 import {createReducer, on} from '@ngrx/store';
 import {MoviesActions} from './movies.actions';
-import {state} from '@angular/animations';
 
 
 export interface State {
@@ -36,7 +35,8 @@ export const moviesReducer = createReducer(
   }),
   on(MoviesActions.addMovieStart, (state) => {
     return {
-      ...state
+      ...state,
+      movies: []
     };
   })
 );

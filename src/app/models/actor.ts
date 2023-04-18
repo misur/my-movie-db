@@ -1,10 +1,6 @@
-export class Actor {
+export interface Actor {
+  id?: string;
   name: string;
   surname: string;
-  age: number;
-
-  constructor(name, surname) {
-    this.name = name;
-    this.surname = surname;
-  }
+  age?: number;
 }

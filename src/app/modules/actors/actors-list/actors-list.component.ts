@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Actor} from '../../../models/actor';
 import {AppState} from '../../../core/stores/app.reducer';
-import {HttpClient} from '@angular/common/http';
 import {ActorsActions} from '../../../services/stores/actors-store/actors.actions';
-import {ActorsService} from '../../../services/stores/actors-store/actors.service';
+import {actorsSelector, isLoadingSelector} from '../../../services/stores/actors-store/actors.selector';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-actors-list',
@@ -12,31 +12,24 @@ import {ActorsService} from '../../../services/stores/actors-store/actors.servic
   styleUrls: ['./actors-list.component.scss']
 })
 export class ActorsListComponent implements OnInit, OnDestroy {
-  // actorsList: Observable<{ actorsList: Actor [], editedActor: Actor }>;
-  actorsList: Actor[];
-
-  loading = true;
-  subscription = null;
+  actorsList: Observable<Actor[]>;
+  loading: Observable<boolean>;
 
   constructor(
     private store: Store<AppState>,
-    private http: HttpClient,
-    private actorsService: ActorsService
   ) {
   }
 
   ngOnInit(): void {
-    this.subscription = this.store.select('actors')
-      .subscribe(data => {
-        this.actorsList = data.actorsList;
-        this.loading = data.loading;
-      });
+
+    this.actorsList = this.store.pipe(select(actorsSelector));
+    this.loading = this.store.pipe(select(isLoadingSelector));
 
     this.store.dispatch(ActorsActions.addActorStart());
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
   deleteActor(actor: Actor) {

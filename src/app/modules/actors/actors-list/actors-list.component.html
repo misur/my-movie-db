@@ -1,14 +1,14 @@
-<p *ngIf="actorsList?.length === 0"> There is not any actors!</p>
+<p *ngIf="(actorsList | async)?.length === 0"> There is not any actors!</p>
 
 <ul>
 <!--  <li *ngFor="let actor of (actorsList | async).actorsList">-->
-  <li *ngFor="let actor of actorsList">
+  <li *ngFor="let actor of (actorsList | async)">
     <span>{{actor.surname}} {{actor.name}} {{actor.age}}</span> &nbsp; &nbsp;
     <span style="text-align: end; cursor: pointer"> <i (click)="deleteActor(actor)" >X</i></span> &nbsp; &nbsp;
 
   </li>
 </ul>
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar *ngIf="(loading | async)" mode="indeterminate"></mat-progress-bar>
 <br>
 <app-add-actor></app-add-actor>  &nbsp; &nbsp;
 <app-edit-actor></app-edit-actor>
